@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FitBuddy</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h2>Enter Your Details</h2>
+    <form action="/generate" method="post">
+        <label>Name:</label>
+        <input type="text" name="name" required><br><br>
+
+        <label>Age:</label>
+        <input type="number" name="age" required><br><br>
+
+        <label>Weight (kg):</label>
+        <input type="number" name="weight" required><br><br>
+
+        <label>Goal:</label>
+        <input type="text" name="goal" required><br><br>
+
+        <label>Intensity:</label>
+        <select name="intensity" required>
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+        </select><br><br>
+
+        <button type="submit">Generate Plan</button>
+    </form>
+</body>
+</html>
