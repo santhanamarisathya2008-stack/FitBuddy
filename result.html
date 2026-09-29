@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitBuddy - Your Plan</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">🌿 FitBuddy</div>
+    <nav>
+        <a href="/">Home</a>
+        <a href="/docs">API Docs</a>
+    </nav>
+</header>
+
+<main class="container">
+    <section class="welcome">
+        <h1>Hello, {{ user.name }}!</h1>
+        <p><strong>Goal:</strong> {{ user.goal }}</p>
+        <p><strong>Activity Level:</strong> {{ user.intensity }}</p>
+    </section>
+
+    {% if message %}
+    <div class="success">{{ message }}</div>
+    {% endif %}
+
+    <section class="card">
+        <h2>{{ plan_title }}</h2>
+        <div class="plan-content">{{ plan }}</div>
+    </section>
+
+    <section class="card">
+        <h2>Nutrition and Recovery Tip</h2>
+        <div class="plan-content">{{ user.nutrition_tip }}</div>
+    </section>
+
+    <section class="card">
+        <h2>Give Feedback</h2>
+        <p>Enter any changes you would like to request.</p>
+
+        <form action="/submit-feedback" method="post">
+            <input type="hidden" name="user_id"
+                   value="{{ user.user_id }}">
+
+            <label for="feedback">Your Feedback</label>
+            <textarea id="feedback" name="feedback"
+                      maxlength="1000" required
+                      placeholder="Enter your feedback"></textarea>
+
+            <button type="submit">Update Plan</button>
+        </form>
+    </section>
+
+    <a href="/" class="back-link">← Create Another Plan</a>
+</main>
+
+<footer>© 2026 FitBuddy</footer>
+
+</body>
+</html>

@@ -1,28 +1,31 @@
-from fastapi import FastAPI, Request, Form
-from fastapi.responses import HTMLResponse
-from fastapi.templating import Jinja2Templates
+from fastapi import FastAPI
+from fastapi.responses import FileResponse
+from pathlib import Path
 
-app = FastAPI()
-templates = Jinja2Templates(directory="templates")
+from database import create_tables
+from routes import router
 
-@app.get("/", response_class=HTMLResponse)
-def home(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+app = FastAPI(
+    title="FitBuddy - AI Fitness Plan Generator",
+    description="Generate general fitness plans using Gemini AI",
+    version="1.0.0"
+)
 
-@app.post("/generate", response_class=HTMLResponse)
-def generate_plan(request: Request,
-                  name: str = Form(...),
-                  age: int = Form(...),
-                  weight: float = Form(...),
-                  goal: str = Form(...),
-                  intensity: str = Form(...)):
-    plan = f"Hello {name}, age {age}, weight {weight}kg. Your goal is {goal}. Here is a {intensity} workout plan!"
-    return templates.TemplateResponse("result.html", {
-        "request": request,
-        "name": name,
-        "age": age,
-        "weight": weight,
-        "goal": goal,
-        "intensity": intensity,
-        "plan": plan
-    })
+BASE_DIR = Path(__file__).resolve().parent
+
+app.include_router(router)
+
+
+@app.on_event("startup")
+def startup():
+    create_tables()
+
+
+@app.get("/static/style.css")
+def get_stylesheet():
+    return FileResponse(BASE_DIR / "style.css", media_type="text/css")
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}

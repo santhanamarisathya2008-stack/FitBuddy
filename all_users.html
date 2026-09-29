@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitBuddy - Admin Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header>
+    <div class="logo">🌿 FitBuddy Admin</div>
+    <nav>
+        <a href="/">Home</a>
+    </nav>
+</header>
+
+<main class="container">
+    <h1>Admin Dashboard</h1>
+    <p>View registered users and their workout plans.</p>
+
+    <section class="card table-wrapper">
+        {% if users %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name / ID</th>
+                    <th>Age</th>
+                    <th>Goal</th>
+                    <th>Original Plan</th>
+                    <th>Feedback</th>
+                    <th>Updated Plan</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>
+                        {{ user.name }}<br>
+                        {{ user.user_id }}
+                    </td>
+
+                    <td>{{ user.age }}</td>
+                    <td>{{ user.goal }}</td>
+
+                    <td>
+                        <details>
+                            <summary>View Plan</summary>
+                            <div class="plan-content">
+                                {{ user.workout_plan }}
+                            </div>
+                        </details>
+                    </td>
+
+                    <td>{{ user.feedback or "No feedback" }}</td>
+
+                    <td>
+                        {% if user.updated_plan %}
+                        <details>
+                            <summary>View Updated Plan</summary>
+                            <div class="plan-content">
+                                {{ user.updated_plan }}
+                            </div>
+                        </details>
+                        {% else %}
+                        Not updated
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <p>No registered users found.</p>
+        {% endif %}
+    </section>
+</main>
+
+<footer>© 2026 FitBuddy</footer>
+
+</body>
+</html>
